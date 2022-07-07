@@ -1,4 +1,4 @@
-#!/bin/bash -e 
+#!/bin/bash
 # set -o nounset
 
 source RESOURCES/colors.sh
@@ -28,16 +28,21 @@ then
     echo -e "[*] $(yellow 'STARTING DIRECTORY DISCOVERING') USING $(yellow gobuster) TOOL IN BACKGROUND"
     directory_traverse $1
 
-    echo -e "[*] START DISCOVERING ALL $(yellow OPEN) PORTS"
+    echo -e "[*] $(yellow "START DISCOVERING") ALL $(yellow OPEN) PORTS"
     nmap_port_scanner $1 
     wait
+    
+    echo -e "[*] $(yellow "START SPIDERING WEBSERVER") SEARCING FOR $(yellow STEG) FILES"
+    http_spider $1 
+    
+    echo "[*] $(yellow STARTING) NMAP FULL SCAN"
 
-    echo '[*] STARTING NMAP FULL SCAN'
     nmap_full_scan $1
 
-    echo -e "$(green "[+] SCAN COMPLETED SUCCESSFULLY")"    
-
-    http_spider $1
+    if [ "$0" = "0" ]
+    then
+        echo -e "$(green "[+] SCAN COMPLETED SUCCESSFULLY")"   
+    fi 
 
 fi
 

@@ -24,7 +24,9 @@ function nmap_full_scan() {
 
     if [ "$?" = "0" ]
     then 
-        nmap -sT -p${OPEN_PORTS} -T4 -sC --script="*vuln*" -sV -O $1 -oN SCAN/NMAP/full_scan_result> /dev/null 2> /dev/null &
+        nmap -sT -p${OPEN_PORTS} -T4 -sC --script="*vuln*" -sV -O $1 -oN SCAN/NMAP/full_scan_result >/dev/null &
+        # nmap -sT -p80 -T4 -sC --script="*vuln*" -sV -O $1 -oN SCAN/NMAP/full_scan_result >/dev/null &
+        wait
     else 
         echo "[-] NOT ABLE TO EXTRACT PORTS"
     fi
