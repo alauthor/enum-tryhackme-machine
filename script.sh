@@ -20,23 +20,17 @@ is_http_port_open $1
 if [ "$?" = "0" ]
 then 
 
-    echo -e "[+] $(yellow HTTP) PROTOCOL IS $(green OPEN) ON PORT $(yellow 80)"
+    echo -e "[+] $(green "HTTP PROTOCOL IS OPEN ON PORT ${HTTP_DEFAULT_PORT}")"
     
     echo -e "[*] $(yellow 'STARTING NIKTO') SCAN IN BACKGROUND" 
     nikto_scan $1
     
     echo -e "[*] $(yellow 'STARTING DIRECTORY DISCOVERING') USING $(yellow gobuster) TOOL IN BACKGROUND"
     directory_traverse $1
-
-    echo -e "[*] $(yellow "START DISCOVERING") ALL $(yellow OPEN) PORTS"
-    nmap_port_scanner $1 
-    wait
     
     echo -e "[*] $(yellow "START SPIDERING WEBSERVER") SEARCING FOR $(yellow STEG) FILES"
     http_spider $1 
     
-    echo "[*] $(yellow STARTING) NMAP FULL SCAN"
-
     nmap_full_scan $1
 
     if [ "$0" = "0" ]

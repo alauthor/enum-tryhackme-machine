@@ -1,4 +1,0 @@
-/index                (Status: 200) [Size: 891]
-/index.php            (Status: 200) [Size: 891]
-/test                 (Status: 301) [Size: 310] [--> http://10.10.1.5/test/]
-/twiki                (Status: 301) [Size: 311] [--> http://10.10.1.5/twiki/]

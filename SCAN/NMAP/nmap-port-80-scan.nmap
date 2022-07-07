@@ -1,9 +1,0 @@
-# Nmap 7.92 scan initiated Thu Jul  7 10:22:39 2022 as: nmap -sS -p80 -oN SCAN/NMAP/nmap-port-80-scan.nmap 10.10.1.5
-Nmap scan report for 10.10.1.5
-Host is up (0.00042s latency).
-
-PORT   STATE SERVICE
-80/tcp open  http
-MAC Address: 08:00:27:FD:6C:A4 (Oracle VirtualBox virtual NIC)
-
-# Nmap done at Thu Jul  7 10:22:52 2022 -- 1 IP address (1 host up) scanned in 13.25 seconds
