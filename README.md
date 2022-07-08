@@ -10,6 +10,7 @@ apt install lolcat
 
 ## Usage 
 ```bash
+Update RESOURCES/settings.sh file to suits your needs
 ./script.sh 10.10.x.x
 ```
 ## Contributing 

@@ -1,6 +1,6 @@
 #!/bin/bash
-# set -o nounset
 
+source RESOURCES/settings.sh
 source RESOURCES/colors.sh
 source SCRIPTS/http-script-enum.sh 
 source SCRIPTS/nmap-vuln-scan.sh
@@ -21,16 +21,10 @@ if [ "$?" = "0" ]
 then 
 
     echo -e "[+] $(green "HTTP PROTOCOL IS OPEN ON PORT ${HTTP_DEFAULT_PORT}")"
-    
-    echo -e "[*] $(yellow 'STARTING NIKTO') SCAN IN BACKGROUND" 
     nikto_scan $1
-    
-    echo -e "[*] $(yellow 'STARTING DIRECTORY DISCOVERING') USING $(yellow gobuster) TOOL IN BACKGROUND"
     directory_traverse $1
-    
-    echo -e "[*] $(yellow "START SPIDERING WEBSERVER") SEARCING FOR $(yellow STEG) FILES"
     http_spider $1 
-    
+    cewl_webserver $1
     nmap_full_scan $1
 
     if [ "$0" = "0" ]

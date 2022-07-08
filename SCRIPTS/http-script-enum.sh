@@ -1,31 +1,36 @@
 #!/bin/bash
 
-FIRST_LINES_FROM_WORDLIST_TO_SCAN=5000
-SCAN_DIRECTORY_FOR="php,txt,html,sql,db,bak"
-SPIDER_FILES_EXTENSIONS="jpeg,jpg,bmp,gif,png,sql,db,txt,bak,wav,mp3,mp4"
-HTTP_DEFAULT_PORT=80
-
 function directory_traverse(){
-    if [ -e /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt ]
+    echo -e "[*] $(yellow 'STARTING DIRECTORY DISCOVERING') USING $(yellow gobuster) TOOL IN BACKGROUND"
+    if [ -e $PATH_TO_TRAVERSING_WORDLIST ]
     then
-        head -n $FIRST_LINES_FROM_WORDLIST_TO_SCAN /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt | gobuster -w - dir -u "http://${1}:${HTTP_DEFAULT_PORT}/" -x $SCAN_DIRECTORY_FOR -t 50 -o SCAN/TRAVERSING/gobuster_result_scan.txt 2>/dev/null > /dev/null &
+        head -n $FIRST_LINES_FROM_WORDLIST_TO_SCAN $PATH_TO_TRAVERSING_WORDLIST | gobuster -w - dir -u "http://${1}:${HTTP_DEFAULT_PORT}/" -x $SCAN_DIRECTORY_FOR -t 50 -o $TRAVERSING_DIR_NAME/$TRAVERSING_OUTPUT_FILE_NAME 2>/dev/null > /dev/null &
     else 
-        echo -e "[-] FILE $(red directory-list-2.3-medium.txt) DOESN'T EXIST"
+        echo -e "[-] FILE $(red $(basename $PATH_TO_TRAVERSING_WORDLIST)) DOESN'T EXIST"
         exit 1
     fi
 }
 
 function nikto_scan() {
-    nikto -h "http://${1}:${HTTP_DEFAULT_PORT}/" -output SCAN/NIKTO/result.txt > /dev/null &
+    echo -e "[*] $(yellow 'STARTING NIKTO') SCAN IN BACKGROUND" 
+    nikto -h "http://${1}:${HTTP_DEFAULT_PORT}/" -output $NIKTO_DIR_NAME/$NIKTO_OUTPUT_FILE_NAME > /dev/null &
+    echo -e "[+] $(green "NIKTO SCAN COMPLETED SUCCESFULLLY")" 
 }
 
 function is_http_port_open() {
-    #START PORT 80 SCANNING .
-    nmap -sS -p${HTTP_DEFAULT_PORT} $1 -oN SCAN/NMAP/nmap-port-80-scan.nmap > /dev/null &
+    echo -e "[*] $(yellow "SEARCHING IF HTTP IS OPEN ON PORT ${HTTP_DEFAULT_PORT}")"
+    nmap -sS -p${HTTP_DEFAULT_PORT} $1 -oN $NMAP_DIR_NAME/$NMAP_OUTPUT_PORT_80 > /dev/null &
     wait
 }
 
 function http_spider() { 
-   wget -nd -r -P SCAN/WEBSERVER/RESOURCES -A ${SPIDER_FILES_EXTENSIONS} http://${1}:${HTTP_DEFAULT_PORT}/ 2>/dev/null >/dev/null &
-   echo -e "[+] $(green "DONE SPIDERING WEBSERVER")"
+    echo -e "[*] $(yellow "START SPIDERING WEBSERVER") SEARCING FOR $(yellow STEG) FILES"
+    wget -nd -r -P $WEBSERVER_RESOURCES_DIR_NAME -A ${SPIDER_FILES_EXTENSIONS} http://${1}:${HTTP_DEFAULT_PORT}/ 2>/dev/null >/dev/null &
+    echo -e "[+] $(green "DONE SPIDERING WEBSERVER")"
+}
+
+function cewl_webserver() {
+    echo -e "[*] $(yellow "START GENERATING WEBSERVER WORDLIST USING CEWL")"
+    cewl "http://${1}:${HTTP_DEFAULT_PORT}/" -d $CEWL_DEPTH -n -e -m $CEWL_MINUMUM_WORD_LENGHT -w $WEBSERVER_WORDLIST_DIR_NAME/$CEWL_OUTPUT_FILE_NAME >/dev/null &
+    echo -e "[*] $(green "GENERATING WEBSERVER WORDLIST COMPLETED SUCCESSFULLY")"
 }

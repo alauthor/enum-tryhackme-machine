@@ -3,15 +3,17 @@
 
 function create_directories() {
     
-    mkdir -p SCAN/NMAP
-    mkdir -p SCAN/NIKTO 2>/dev/null
-    mkdir -p SCAN/TRAVERSING 2>/dev/null
-    mkdir -p SCAN/WEBSERVER/RESOURCES
+    mkdir -p $NMAP_DIR_NAME
+    mkdir -p $NIKTO_DIR_NAME 2>/dev/null
+    mkdir -p $TRAVERSING_DIR_NAME 2>/dev/null
+    mkdir -p $WEBSERVER_RESOURCES_DIR_NAME 2>/dev/null
+    mkdir -p $WEBSERVER_WORDLIST_DIR_NAME 2>/dev/null
+
     if [ "$?" == "0" ]
     then 
-        echo -e "$(green "[+] SCAN FOLDER CREATED SUCCESSFULLY")"
+        echo -e "[+] $(green "SCAN FOLDER CREATED SUCCESSFULLY")"
     else 
-        echo '[-] SCAN FOLDER DID NOT CREATED SUCCESSFULLY, PLEASE RUN THIS AS ROOT'
+        echo "[-] $(red "SCAN FOLDER DID NOT CREATED SUCCESSFULLY, PLEASE RUN THIS AS ROOT")"
         exit 0 
     fi 
 }
