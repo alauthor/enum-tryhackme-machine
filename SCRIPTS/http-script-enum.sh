@@ -31,3 +31,21 @@ function cewl_webserver() {
     echo -e "[*] $(yellow "START GENERATING WEBSERVER WORDLIST USING CEWL")"
     cewl "http://${1}:${HTTP_DEFAULT_PORT}/" -d $CEWL_DEPTH -n -e -m $CEWL_MINUMUM_WORD_LENGHT -w $WEBSERVER_WORDLIST_DIR_NAME/$CEWL_OUTPUT_FILE_NAME >/dev/null &
 }
+
+
+function search_text() { 
+   
+    echo -e "[*] $(yellow "START SEARCHING WEBSERVER FOR COMMENTS AND USERNAMES, PASSWORDS, HIDDEN KEYWORDS")"
+    wget -nd -r -P $TEMP_KEYWORDS_DIR -A $WEBSERVER_SEARCH_KEYWORDS_WITH_EXTENSIONS http://${1}:${HTTP_DEFAULT_PORT}/mutillidae 2>/dev/null >/dev/null &
+    wait $!
+    find $TEMP_KEYWORDS_DIR -type f | xargs cat | awk '/<!--/,/-->/' > ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_COMMENTS_OUTPUT_FILE_NAME} 2>/dev/null
+    find $TEMP_KEYWORDS_DIR -type f -exec grep -iEn "(username|password|hidden)" > ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_KEYWORDS_TAGS} {} \; 2>/dev/null
+    
+    rm -r ${TEMP_KEYWORDS_DIR}
+    if [ -e ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_KEYWORDS_TAGS} ] 2> /dev/null && [ -e ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_COMMENTS_OUTPUT_FILE_NAME} ]
+    then 
+        echo "[+] $(green "SUCCESSFULLY COLLECTED IMPORTANT KEYWORDS AND COMMENTS")"
+    else 
+        echo "[-] $(red "ERROR SEARCHING FOR THE COMMENTS AND KEYWORDS")"
+    fi
+}

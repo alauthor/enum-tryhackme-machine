@@ -6,12 +6,13 @@ This is a bash script to start enumerating tryhackme machines
 ```bash
 apt install figlet 
 apt install lolcat 
+apt install cewl
 ```
 
 ## Usage 
 ```bash
 Update RESOURCES/settings.sh file to suits your needs
-./script.sh 10.10.x.x
+./tryenum.sh 10.10.x.x
 ```
 ## Contributing 
 

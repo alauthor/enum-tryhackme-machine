@@ -25,6 +25,7 @@ then
     directory_traverse $1
     http_spider $1 
     cewl_webserver $1
+    search_text $1
     nmap_full_scan $1
     
     echo -e "[+] $(green "DONE SPIDERING WEBSERVER")"    
