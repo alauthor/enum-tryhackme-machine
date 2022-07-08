@@ -36,7 +36,7 @@ function cewl_webserver() {
 function search_text() { 
    
     echo -e "[*] $(yellow "START SEARCHING WEBSERVER FOR COMMENTS AND USERNAMES, PASSWORDS, HIDDEN KEYWORDS")"
-    wget -nd -r -P $TEMP_KEYWORDS_DIR -A $WEBSERVER_SEARCH_KEYWORDS_WITH_EXTENSIONS http://${1}:${HTTP_DEFAULT_PORT}/mutillidae 2>/dev/null >/dev/null &
+    wget -nd -r -P $TEMP_KEYWORDS_DIR -A $WEBSERVER_SEARCH_KEYWORDS_WITH_EXTENSIONS http://${1}:${HTTP_DEFAULT_PORT}/ 2>/dev/null >/dev/null &
     wait $!
     find $TEMP_KEYWORDS_DIR -type f | xargs cat | awk '/<!--/,/-->/' > ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_COMMENTS_OUTPUT_FILE_NAME} 2>/dev/null
     find $TEMP_KEYWORDS_DIR -type f -exec grep -iEn "(username|password|hidden)" > ${WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME}/${WEBSERVER_SEARCH_FOR_KEYWORDS_TAGS} {} \; 2>/dev/null
