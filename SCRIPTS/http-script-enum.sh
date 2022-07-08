@@ -14,7 +14,6 @@ function directory_traverse(){
 function nikto_scan() {
     echo -e "[*] $(yellow 'STARTING NIKTO') SCAN IN BACKGROUND" 
     nikto -h "http://${1}:${HTTP_DEFAULT_PORT}/" -output $NIKTO_DIR_NAME/$NIKTO_OUTPUT_FILE_NAME > /dev/null &
-    echo -e "[+] $(green "NIKTO SCAN COMPLETED SUCCESFULLLY")" 
 }
 
 function is_http_port_open() {
@@ -26,11 +25,9 @@ function is_http_port_open() {
 function http_spider() { 
     echo -e "[*] $(yellow "START SPIDERING WEBSERVER") SEARCING FOR $(yellow STEG) FILES"
     wget -nd -r -P $WEBSERVER_RESOURCES_DIR_NAME -A ${SPIDER_FILES_EXTENSIONS} http://${1}:${HTTP_DEFAULT_PORT}/ 2>/dev/null >/dev/null &
-    echo -e "[+] $(green "DONE SPIDERING WEBSERVER")"
 }
 
 function cewl_webserver() {
     echo -e "[*] $(yellow "START GENERATING WEBSERVER WORDLIST USING CEWL")"
     cewl "http://${1}:${HTTP_DEFAULT_PORT}/" -d $CEWL_DEPTH -n -e -m $CEWL_MINUMUM_WORD_LENGHT -w $WEBSERVER_WORDLIST_DIR_NAME/$CEWL_OUTPUT_FILE_NAME >/dev/null &
-    echo -e "[*] $(green "GENERATING WEBSERVER WORDLIST COMPLETED SUCCESSFULLY")"
 }

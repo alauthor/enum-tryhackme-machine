@@ -3,7 +3,7 @@
 
 function nmap_port_scanner () {
     echo -e "[*] $(yellow "START DISCOVERING OPEN PORTS FROM 1-65535")"
-    nmap -sS -p- -T5 $1 -oG $NMAP_DIR_NAME/grep_open_port_scanner > /dev/null &
+    nmap -sS -p${NMAP_SCAN_PORTSF_FROM} -T5 $1 -oG $NMAP_DIR_NAME/grep_open_port_scanner > /dev/null &
     # wait for this process only to get done 
     wait $!
 }

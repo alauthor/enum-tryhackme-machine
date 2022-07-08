@@ -26,6 +26,10 @@ then
     http_spider $1 
     cewl_webserver $1
     nmap_full_scan $1
+    
+    echo -e "[+] $(green "DONE SPIDERING WEBSERVER")"    
+    echo -e "[*] $(green "GENERATING WEBSERVER WORDLIST COMPLETED SUCCESSFULLY")"
+    echo -e "[+] $(green "NIKTO SCAN COMPLETED SUCCESFULLLY")" 
 
     if [ "$0" = "0" ]
     then
