@@ -9,7 +9,7 @@ function create_directories() {
     mkdir -p $WEBSERVER_RESOURCES_DIR_NAME 2>/dev/null
     mkdir -p $WEBSERVER_WORDLIST_DIR_NAME 2>/dev/null
     mkdir -p $WEBSERVER_SEARCHING_FOR_KEYWORDS_DIR_NAME 2>/dev/null
-    mkdir $TEMP_KEYWORDS_DIR 2>/dev/null
+    mkdir -p $TEMP_KEYWORDS_DIR 2>/dev/null
     
     if [ "$?" == "0" ]
     then 

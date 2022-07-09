@@ -29,7 +29,7 @@ function http_spider() {
 
 function cewl_webserver() {
     echo -e "[*] $(yellow "START GENERATING WEBSERVER WORDLIST USING CEWL")"
-    cewl "http://${1}:${HTTP_DEFAULT_PORT}/" -d $CEWL_DEPTH -n -e -m $CEWL_MINUMUM_WORD_LENGHT -w $WEBSERVER_WORDLIST_DIR_NAME/$CEWL_OUTPUT_FILE_NAME >/dev/null &
+    cewl "http://${1}:${HTTP_DEFAULT_PORT}/" -d $CEWL_DEPTH -e -m $CEWL_MINUMUM_WORD_LENGHT -w $WEBSERVER_WORDLIST_DIR_NAME/$CEWL_OUTPUT_FILE_NAME >/dev/null &
 }
 
 

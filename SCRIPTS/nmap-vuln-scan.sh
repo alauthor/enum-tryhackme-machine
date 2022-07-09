@@ -2,15 +2,11 @@
 
 
 function nmap_port_scanner () {
-    echo -e "[*] $(yellow "START DISCOVERING OPEN PORTS FROM 1-65535")"
+    echo -e "[*] $(yellow "START DISCOVERING OPEN PORTS FROM ${NMAP_SCAN_PORTSF_FROM}")"
     nmap -sS -p${NMAP_SCAN_PORTSF_FROM} -T5 $1 -oG $NMAP_DIR_NAME/grep_open_port_scanner > /dev/null &
-    # wait for this process only to get done 
-    wait $!
 }
 
 function grep_open_ports() {
-    
-    nmap_port_scanner $1 
     
     if [ -e $NMAP_DIR_NAME/$PORTS_FILE ]
     then
@@ -24,6 +20,8 @@ function grep_open_ports() {
 
 function nmap_full_scan() { 
     # call grep open ports to start dealing with the string OPEN_PORTS
+    nmap_port_scanner $1 
+    wait
     grep_open_ports $1
 
     echo "[*] $(yellow STARTING) NMAP FULL SCAN"
